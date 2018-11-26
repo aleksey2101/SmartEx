@@ -26,12 +26,17 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText resultView;
 
+    private String name = "";
+
     private int TIME_OUT=8000;
     private String SERVER_URL="http://10.201.2.208:8080/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        name = intent.getStringExtra("name");
 
         try {
             SpeechKit.getInstance().init(this, API_KEY_FOR_TESTS_ONLY);
@@ -69,8 +74,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("kyky", "message: "+message);
                 URLSendGet urlSendGet = new URLSendGet(SERVER_URL,TIME_OUT);
                 TextView textView = findViewById(R.id.textView8);
-                textView.setText(urlSendGet.get("sendMessage/"+message));
-                textView = findViewById(R.id.textView9);
+                String[] s = message.split(" ");
+                switch (s[0]) {
+                    case "сложить":
+                        textView.setText(urlSendGet.get("id/"+s[1]+"+"+s[3]));
+                        textView = findViewById(R.id.textView9);
+                        break;
+                }
                 textView.setText(message);
             }
         });

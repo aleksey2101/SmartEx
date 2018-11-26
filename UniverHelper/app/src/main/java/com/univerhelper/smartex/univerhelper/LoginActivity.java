@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
                     textView.setText("Пользователь добавлен");
                     urlSendGet.get("addUser/" + name + "/0/" + pass);
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("name", name);
                     startActivity(intent);
                 }
             } else {
@@ -52,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (pass.equals(user.getPassword())) {
                     textView.setText("Все верно");
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("name", name);
                     startActivity(intent);
                 } else {
                     textView.setText("Неверный пароль");
