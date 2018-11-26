@@ -85,6 +85,10 @@ public class MainActivity extends AppCompatActivity implements VocalizerListener
         days.add("суббота");
         days.add("воскресение");
 
+        sub.add("свободная");
+        sub.add("литература");
+        sub.add("философия");
+        sub.add("право");
         sub.add("");
 
         try {
@@ -184,8 +188,13 @@ public class MainActivity extends AppCompatActivity implements VocalizerListener
                         User user1 = gson1.fromJson(urlSendGet.get("getUser/" + id1), User.class);
                         String s1 = Integer.toString(user1.getGroup());
                         String s2 = Integer.toString(days.indexOf(day) + 1);
-                        String[] r = urlSendGet.get("getGroupDay/"+s1+"/"+s2).split(".");
-                        textView.setText(s2);
+                        s1 = urlSendGet.get("getGroupDay/"+s1+"/"+s2);
+                        String[] r = s1.split("-");
+                        s1 = "";
+                        for (int i = 0; i < r.length; i++) {
+                            s1 += "пара " + Integer.toString(i + 1) + " " + sub.get(Integer.parseInt(r[i])) + ", ";
+                        }
+                        textView.setText(s1);
                         break;
                     default:
                         textView.setText("Повторите пожалуйста");
