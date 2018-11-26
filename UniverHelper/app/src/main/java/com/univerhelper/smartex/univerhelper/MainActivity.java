@@ -68,9 +68,8 @@ public class MainActivity extends AppCompatActivity {
                 String message = editText.getText().toString();
                 Log.d("kyky", "message: "+message);
                 URLSendGet urlSendGet = new URLSendGet(SERVER_URL,TIME_OUT);
-                //urlSendGet.get("sendMessage/"+message);
                 TextView textView = findViewById(R.id.textView8);
-                textView.setText(urlSendGet.get("getUser/0"));
+                textView.setText(urlSendGet.get("sendMessage/"+message));
                 textView = findViewById(R.id.textView9);
                 textView.setText(message);
             }
