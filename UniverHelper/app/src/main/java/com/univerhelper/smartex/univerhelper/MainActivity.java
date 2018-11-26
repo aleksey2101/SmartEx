@@ -82,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
                         textView.setText(urlSendGet.get("id/"+s[1]+"+"+s[3]));
 
                         break;
+                    case "запиши":
+                        String Uid = urlSendGet.get("getUserId/" + name);
+                        
+                        break;
                     case "напомнить":
                         String id = urlSendGet.get("getUserId/" + name);
                         Gson gson = new Gson();
