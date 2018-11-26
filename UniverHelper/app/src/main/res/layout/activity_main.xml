@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgraung"
+        android:gravity="bottom">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/text_back"
+                android:layout_margin="5dp"
+                android:layout_weight="3"
+                android:textSize="25dp"
+                android:text="Вопрос" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/text_res_back"
+                android:layout_weight="3"
+                android:layout_margin="5dp"
+                android:textSize="25dp"
+                android:text="Ответ" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/start_recognition_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_back"
+                android:layout_margin="5dp"
+                android:textColor="@color/textColor"
+                android:drawableStart="@drawable/micro"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/micro"/>
+
+            <EditText
+                android:id="@+id/recognition_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:background="@drawable/text_back"
+                android:inputType="textPersonName"
+                android:text="" />
+
+            <Button
+                android:id="@+id/enter_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_back"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:textColor="@color/textColor"
+                android:gravity="center"
+                android:drawableLeft="@drawable/send_1" />
+        </TableRow>
+
+    </TableLayout>
+</android.support.constraint.ConstraintLayout>

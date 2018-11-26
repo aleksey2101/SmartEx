@@ -7,8 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 @Controller
 @EnableWebMvc
@@ -17,6 +21,39 @@ public class MainController {
 
     ArrayList<User> users = new ArrayList<>();
     int k = 0;
+    Thread save = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            boolean open = false;
+            while (true) {
+                try {
+                    if (open) {
+                        FileWriter writer = new FileWriter("users.json");
+                        Gson gson = new Gson();
+                        writer.write(gson.toJson(users));
+                        writer.close();
+                        open = true;
+                    } else {
+                        FileReader reader = new FileReader("users.json");
+                        Scanner in = new Scanner(reader);
+                        Gson gson = new Gson();
+                        users = gson.fromJson(in.nextLine(), ArrayList.class);
+                        reader.close();
+                    }
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+        }
+    });
+
+    @GetMapping("/startSave")
+    public @ResponseBody String startSave() {
+        if (!save.isAlive()) {
+            save.start();
+        }
+        return "ok";
+    }
 
     @GetMapping("/listUser")
     public ModelAndView listUser() {
@@ -51,6 +88,12 @@ public class MainController {
         }
         key = list.indexOf(name);
         return Integer.toString(key);
+    }
+
+    @GetMapping("message/{name}/{message}")
+    public @ResponseBody String message (@PathVariable String name,
+                                         @PathVariable String message) {
+        return "ok";
     }
 
     @GetMapping("/getUser/{id}")

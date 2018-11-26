@@ -1,5 +1,6 @@
 package com.univerhelper.smartex.univerhelper;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -41,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     textView.setText("Пользователь добавлен");
                     urlSendGet.get("addUser/" + name + "/0/" + pass);
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }
             } else {
                 String id = urlSendGet.get("getUserId/" + name);
@@ -48,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
                 User user = gson.fromJson(urlSendGet.get("getUser/" + id), User.class);
                 if (pass.equals(user.getPassword())) {
                     textView.setText("Все верно");
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
                 } else {
                     textView.setText("Неверный пароль");
                 }
