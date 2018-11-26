@@ -9,7 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.univerhelper.smartex.univerhelper.Classes.URLSendGet;
+import com.univerhelper.smartex.univerhelper.Classes.User;
 
 import java.util.UUID;
 
@@ -78,9 +80,19 @@ public class MainActivity extends AppCompatActivity {
                 switch (s[0]) {
                     case "сложить":
                         textView.setText(urlSendGet.get("id/"+s[1]+"+"+s[3]));
-                        textView = findViewById(R.id.textView9);
+
+                        break;
+                    case "напомнить":
+                        String id = urlSendGet.get("getUserId/" + name);
+                        Gson gson = new Gson();
+                        User user = gson.fromJson(urlSendGet.get("getUser/" + id), User.class);
+                        textView.setText(user.getPassword());
+                        break;
+                    default:
+                        textView.setText("Повторите");
                         break;
                 }
+                textView = findViewById(R.id.textView9);
                 textView.setText(message);
             }
         });
