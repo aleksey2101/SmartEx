@@ -1,6 +1,10 @@
 package com.univerhelper.smartex.univerhelper;
 
 import android.content.Intent;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +17,9 @@ import com.google.gson.Gson;
 import com.univerhelper.smartex.univerhelper.Classes.URLSendGet;
 import com.univerhelper.smartex.univerhelper.Classes.User;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -65,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements VocalizerListener
     private Vocalizer vocalizer;
 
     private String name = "";
+    private int k1 = 0, k2 = 0;
     ArrayList<String> days = new ArrayList<>();
     ArrayList<String> sub  = new ArrayList<>();
 
@@ -75,21 +83,21 @@ public class MainActivity extends AppCompatActivity implements VocalizerListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         name = intent.getStringExtra("name");
         days.add("понедельник");
         days.add("вторник");
-        days.add("среда");
+        days.add("среду");
         days.add("четверг");
-        days.add("пятница");
-        days.add("суббота");
+        days.add("пятницу");
+        days.add("субботу");
         days.add("воскресение");
 
         sub.add("свободная");
         sub.add("литература");
         sub.add("философия");
         sub.add("право");
-        sub.add("");
+        sub.add("математический анализ");
 
         try {
             SpeechKit.getInstance().init(this, API_KEY_FOR_TESTS_ONLY);
@@ -162,6 +170,12 @@ public class MainActivity extends AppCompatActivity implements VocalizerListener
                 URLSendGet urlSendGet = new URLSendGet(SERVER_URL,TIME_OUT);
                 TextView textView = findViewById(R.id.textView8);
                 String[] s = message.split(" ");
+                String idUser = urlSendGet.get("getUserId/" + name);
+                String sZ = "";
+                Button button = findViewById(R.id.map_button);
+                Button button2 = findViewById(R.id.button2);
+                button.setVisibility(View.INVISIBLE);
+                button2.setVisibility(View.INVISIBLE);
                 switch (s[0]) {
                     case "сложить":
                         textView.setText(urlSendGet.get("id/"+s[1]+"+"+s[3]));
@@ -195,6 +209,49 @@ public class MainActivity extends AppCompatActivity implements VocalizerListener
                             s1 += "пара " + Integer.toString(i + 1) + " " + sub.get(Integer.parseInt(r[i])) + ", ";
                         }
                         textView.setText(s1);
+                        break;
+                    case "добавь":
+                        for (int i = 2; i < s.length; i++) {
+                            sZ += s[i] + " ";
+                        }
+                        try {
+                            urlSendGet.get("addZ/"+idUser+"/"+ URLEncoder.encode(sZ, "UTF-8").replaceAll("\\+", "%20")
+                                    .replaceAll("\\%21", "!")
+                                    .replaceAll("\\%27", "'")
+                                    .replaceAll("\\%28", "(")
+                                    .replaceAll("\\%29", ")")
+                                    .replaceAll("\\%7E", "~"));
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        textView.setText("Заметка добавлена в ваш список");
+                        break;
+                    case "покажи":
+                        try {
+                            textView.setText(URLDecoder.decode(urlSendGet.get("getZ/"+idUser+"/"+s[1]),"UTF-8"));
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case "удали":
+                        if (Integer.parseInt(urlSendGet.get("remZ/"+idUser+"/"+s[1])) > 0) {
+                            textView.setText("Такой заметки у вас нет");
+                        } else {
+                            textView.setText("Заметка была удалена");
+                        }
+                        break;
+                    case "помоги":
+                        textView.setText("нет");
+                        break;
+                    case "как":
+                        textView.setText("Воспользуйтесь этой схемой чтоб разобраться");
+                        //k1 = Integer.parseInt(s[3]);
+                        //k2 = Integer.parseInt(s[5]);
+                        button.setVisibility(View.VISIBLE);
+                        break;
+                    case "открой":
+                        textView.setText("Открываю");
+                        button2.setVisibility(View.VISIBLE);
                         break;
                     default:
                         textView.setText("Повторите пожалуйста");
@@ -262,4 +319,16 @@ public class MainActivity extends AppCompatActivity implements VocalizerListener
         vocalizer = null;
     }
 
+    public void settings(View view) {
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        intent.putExtra("name", name);
+        startActivity(intent);
+    }
+
+    public void map (View view) {
+        Intent intent = new Intent(MainActivity.this, MapActivity.class);
+        intent.putExtra("k1", k1);
+        intent.putExtra("k2", k2);
+        startActivity(intent);
+    }
 }
