@@ -16,7 +16,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_weight="3"
-        android:background="@drawable/text_res_back"
         android:text="Ответ"
         android:textSize="25dp"
         app:layout_constraintStart_toStartOf="parent"

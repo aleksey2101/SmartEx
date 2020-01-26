@@ -21,6 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 import ru.yandex.speechkit.Language;
@@ -211,9 +212,18 @@ public class MainActivity extends AppCompatActivity implements VocalizerListener
                         textView.setText(s1);
                         break;
                     case "добавь":
+                        if (s[1]!="заметка")
+                            sZ=s[1]+sZ;
+                        boolean flag=false;
                         for (int i = 2; i < s.length; i++) {
                             sZ += s[i] + " ";
+                            flag=true;
+
                         }
+                        if (flag)
+                        sZ= sZ.substring(0,sZ.length()-1);
+                        Log.i("kyky","sz= "+sZ);
+
                         try {
                             urlSendGet.get("addZ/"+idUser+"/"+ URLEncoder.encode(sZ, "UTF-8").replaceAll("\\+", "%20")
                                     .replaceAll("\\%21", "!")
@@ -221,6 +231,7 @@ public class MainActivity extends AppCompatActivity implements VocalizerListener
                                     .replaceAll("\\%28", "(")
                                     .replaceAll("\\%29", ")")
                                     .replaceAll("\\%7E", "~"));
+                            Log.i("kyky","addZ sz= "+URLEncoder.encode(sZ, "UTF-8"));
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
@@ -228,12 +239,52 @@ public class MainActivity extends AppCompatActivity implements VocalizerListener
                         break;
                     case "покажи":
                         try {
+                            try {
+                                int n=Integer.parseInt(s[1]);
+
+                            }catch (Exception e){
+                                switch (s[1]) {
+                                    case "первое":
+                                        s[1]="1";
+                                        break;
+                                    case "второе":
+                                        s[1]="2";
+                                        break;
+                                    case "третье":
+                                        s[1]="3";
+                                        break;
+                                    case "четвертое":
+                                        s[1]="4";
+                                        break;
+                                    case "пятое":
+                                        s[1]="5";
+                                        break;
+                                    case "шестое":
+                                        s[1]="6";
+                                        break;
+                                    case "седьмое":
+                                        s[1]="7";
+                                        break;
+                                        //todo ошибка
+                                    case "девятое":
+                                        s[1]="8";
+                                        break;
+                                    case "десятое":
+                                        s[1]="9";
+                                        break;
+                                }
+                            }
+                            //urlSendGet.get("getZ/"+idUser+"/"+s[1])
+                            Log.i("kyky","getZ MAS= "+ Arrays.toString(s));
+                            Log.i("kyky","getZ s= "+urlSendGet.get("getZ/"+idUser+"/"+s[1]));
                             textView.setText(URLDecoder.decode(urlSendGet.get("getZ/"+idUser+"/"+s[1]),"UTF-8"));
+                            Log.i("kyky","getZ str= "+s[1]);
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
                         break;
                     case "удали":
+                        Log.i("kyky","getZ str= "+sZ);
                         if (Integer.parseInt(urlSendGet.get("remZ/"+idUser+"/"+s[1])) > 0) {
                             textView.setText("Такой заметки у вас нет");
                         } else {
@@ -243,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements VocalizerListener
                     case "помоги":
                         textView.setText("нет");
                         break;
-                    case "как":
+                    case "как" :
                         textView.setText("Воспользуйтесь этой схемой чтоб разобраться");
                         //k1 = Integer.parseInt(s[3]);
                         //k2 = Integer.parseInt(s[5]);

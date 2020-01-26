@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                 String id = urlSendGet.get("getUserId/" + name);
                 Gson gson = new Gson();
                 User user = gson.fromJson(urlSendGet.get("getUser/" + id), User.class);
+                if (user.getPassword()!=null)
                 if (pass.equals(user.getPassword())) {
                     textView.setText("Все верно");
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
