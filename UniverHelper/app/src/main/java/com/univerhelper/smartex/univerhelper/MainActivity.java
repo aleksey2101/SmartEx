@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements VocalizerListener
             SpeechKit.getInstance().init(this, API_KEY_FOR_TESTS_ONLY);
             SpeechKit.getInstance().setUuid(UUID.randomUUID().toString());
         } catch (SpeechKit.LibraryInitializationException ignored) {
+            //TODO
             //do not ignore in the prod version!
             //finish()
         }
