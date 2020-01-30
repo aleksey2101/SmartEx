@@ -1,0 +1,2 @@
+UserServ является не нужным,
+необходимые файлы (такие как URLSendGet.java) продублированы в папку UniverHelper
